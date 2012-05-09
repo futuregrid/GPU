@@ -1,0 +1,1 @@
+mpiicc -o mpi_cuda_bin Volume.o cmeansMPI_kernel.o cmeansMPI.o MDL.o -I. -I/N/soft/intel/impi/4.0.0.028/include64/ -I/opt/cuda/include/ -I/opt/NVIDIA_GPU_Computing_SDK/C/common/inc/ -L/N/soft/intel/impi/4.0.0.028/lib64/ -L/opt/cuda/lib64/ -lcudart -lmpi -lgomp
