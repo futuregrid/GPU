@@ -1,12 +1,5 @@
 /*
- * Copyright 1993-2010 NVIDIA Corporation.  All rights reserved.
- *
- * Please refer to the NVIDIA end user license agreement (EULA) associated
- * with this source code for terms and conditions that govern your use of
- * this software. Any use, reproduction, disclosure, or distribution of
- * this software and related documentation outside the terms of the EULA
- * is strictly prohibited.
- *
+ * CUDA code for GPU manual
  */
 
 /* Matrix multiplication: C = A * B.
@@ -17,15 +10,6 @@
 #define _MATRIXMUL_KERNEL_H_
 
 #include <stdio.h>
-
-#define CHECK_BANK_CONFLICTS 0
-#if CHECK_BANK_CONFLICTS
-#define AS(i, j) cutilBankChecker(((float*)&As[0][0]), (BLOCK_SIZE * i + j))
-#define BS(i, j) cutilBankChecker(((float*)&Bs[0][0]), (BLOCK_SIZE * i + j))
-#else
-#define AS(i, j) As[i][j]
-#define BS(i, j) Bs[i][j]
-#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 //! Matrix multiplication on the device: C = A * B
@@ -73,8 +57,8 @@ matrixMul( float* C, float* A, float* B, int wA, int wB)
         // Load the matrices from device memory
         // to shared memory; each thread loads
         // one element of each matrix
-        AS(ty, tx) = A[a + wA * ty + tx];
-        BS(ty, tx) = B[b + wB * ty + tx];
+        As[ty][tx] = A[a + wA * ty + tx];
+        BS[ty][tx] = B[b + wB * ty + tx];
         // Synchronize to make sure the matrices are loaded
         __syncthreads();
         // Multiply the two matrices together;
@@ -82,7 +66,7 @@ matrixMul( float* C, float* A, float* B, int wA, int wB)
         // of the block sub-matrix
 #pragma unroll
         for (int k = 0; k < BLOCK_SIZE; ++k)
-            Csub += AS(ty, k) * BS(k, tx);
+            Csub += As[ty][k] * BS(k, tx);
 
         // Synchronize to make sure that the preceding
         // computation is done before loading two new

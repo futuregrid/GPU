@@ -4,19 +4,11 @@
 
 /* Matrix multiplication: C = A * B.
  * Host code.
- *
- * This sample implements matrix multiplication as described in Chapter 3
- * of the programming guide.
- * It has been written for clarity of exposition to illustrate various CUDA
- * programming principles, not with the goal of providing the most
  * performant generic kernel for matrix multiplication.
  *
  */
 
-// Utilities and system includes
 #include <cublas_v2.h>
-//#include <shrQATest.h>
-//#include <shrUtils.h>
 
 #include <cuda_runtime.h>
 #include "dgemm_cuda.h"
@@ -176,43 +168,29 @@ extern "C" void doCUDA(void *ptr)
     // copy host memory to device
     checkCudaErrors(cudaMemcpy(d_A, h_A, mem_size_A, cudaMemcpyHostToDevice) );
     checkCudaErrors(cudaMemcpy(d_B, h_B, mem_size_B, cudaMemcpyHostToDevice) );
-    
     checkCudaErrors(cudaMalloc((void**) &d_C, mem_size_C));
    
-    // setup execution parameters
+    //setup execution parameters
     dim3 threads(block_size, block_size);
     dim3 grid(uiWC / threads.x, uiHC / threads.y);
-
     
 	// CUBLAS version 2.0
         cublasHandle_t handle;
         checkError(cublasCreate(&handle), "cublasCreate() error!\n");
         const float alpha = 1.0f;
         const float beta = 0.0f;
-        //Perform warmup operation with cublas
 	cublasStatus_t ret = cublasSgemm(handle, CUBLAS_OP_N, CUBLAS_OP_N, uiWB, uiHA, uiWA, &alpha, d_B, uiWB, d_A, uiWA, &beta, d_C, uiWA);
         checkError(ret, "cublas Sgemm returned an error!\n");
 
-        cublasSgemm(handle, CUBLAS_OP_N, CUBLAS_OP_N, uiWB, uiHA, uiWA, &alpha, d_B, uiWB, d_A, uiWA, &beta, d_C, uiWA);
-		// check if kernel execution generated and error
 	getLastCudaError("CUBLAS Kernel execution failed");
 	cudaDeviceSynchronize();
-		// stop and destroy timer
 
-		//Log througput, etc
-		// copy result from device to host
 	checkCudaErrors(cudaMemcpy(h_CUBLAS, d_C, mem_size_C, cudaMemcpyDeviceToHost) );
         checkError(cublasDestroy(handle), "cublasDestroy() error!\n");
-
-	// For the case where "-cublas" is not specified, we will run the matrixMul kernel
         cudaDeviceSynchronize();
-		// Start Timing	
-		// check if kernel execution generated and error
+	
 	getLastCudaError("CUDA matrixMul Kernel execution failed");
-	// stop and destroy timer
-	// copy result from device to host
 	checkCudaErrors(cudaMemcpy(h_C, d_C, mem_size_C, cudaMemcpyDeviceToHost) );
-    	// compute reference solution
     free(h_A);
     free(h_B);
     free(h_C);
