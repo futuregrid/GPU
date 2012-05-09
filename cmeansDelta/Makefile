@@ -28,6 +28,6 @@ cmeansMPI.o: cmeansMPI.cu
 	nvcc -c cmeansMPI.cu -o cmeansMPI.o $(INCLUDE) -lcudart -lmpi -lgomp
 
 mpi_cuda: $(OBJ)
-	$(MPICC) -o mpi_cuda_bin $(OBJ) $(INCLUDE) $(LIBPATH) -lcudart -lmpi -lgomp -lcutil_x86_64
+	$(MPICC) -o mpi_cuda_cmeans $(OBJ) $(INCLUDE) $(LIBPATH) -lcudart -lmpi -lgomp -lcutil_x86_64
 clean:
-	rm *.o mpi_cuda_bin
+	rm *.o mpi_cuda_cmeans
