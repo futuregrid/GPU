@@ -58,7 +58,7 @@ matrixMul( float* C, float* A, float* B, int wA, int wB)
         // to shared memory; each thread loads
         // one element of each matrix
         As[ty][tx] = A[a + wA * ty + tx];
-        BS[ty][tx] = B[b + wB * ty + tx];
+        Bs[ty][tx] = B[b + wB * ty + tx];
         // Synchronize to make sure the matrices are loaded
         __syncthreads();
         // Multiply the two matrices together;
@@ -66,7 +66,7 @@ matrixMul( float* C, float* A, float* B, int wA, int wB)
         // of the block sub-matrix
 #pragma unroll
         for (int k = 0; k < BLOCK_SIZE; ++k)
-            Csub += As[ty][k] * BS(k, tx);
+            Csub += As[ty][k] * Bs[k][tx];
 
         // Synchronize to make sure that the preceding
         // computation is done before loading two new

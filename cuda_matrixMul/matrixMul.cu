@@ -4,7 +4,7 @@
 
 #include <cublas_v2.h>
 #include <cuda_runtime.h>
-#include <matrixMul_kernel.cu>
+#include "matrixMul_kernel.cu"
 
     //This will output the proper CUDA error strings in the event that a CUDA host call returns an error
     #define checkCudaErrors(err)           __checkCudaErrors (err, __FILE__, __LINE__)
@@ -58,7 +58,7 @@ int main(int argc, char** argv)
 
 void doMatrixMul(int argc, char** argv)
 {
-    int size = 320;
+    int size = 32;
     int devID;
     cudaDeviceProp props;
 
