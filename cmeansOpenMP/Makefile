@@ -1,12 +1,11 @@
 ################################################################################
-# Build script for MPI/CUDA implementation of cmeans on Delta
+# Build script for OpenMP/CUDA implementation of cmeans on Delta
 # lihui@indiana.edu   5/9/2012
 ################################################################################
 
-all:mpi_cuda
+all:openmp_cuda
 
 CC	= icc
-MPICC	= mpiicc
 
 NVCCFLAGS += --ptxas-options=-v
 NVCCFLAGS += -Xcompiler -fopenmp
@@ -29,7 +28,7 @@ Volume.o: Volume.cpp
 cmeansMultiGPU.o: cmeansMultiGPU.cu
 	nvcc -c cmeansMultiGPU.cu -o cmeansMultiGPU.o $(INCLUDE) -lcudart -lmpi -lgomp
 
-mpi_cuda: $(OBJ)
-	$(MPICC) -o openmp_cuda_cmeans $(OBJ) $(INCLUDE) $(LIBPATH) -lcudart -lmpi -lgomp -lcutil_x86_64
+openmp_cuda: $(OBJ)
+	$(CC) -o openmp_cuda_cmeans $(OBJ) $(INCLUDE) $(LIBPATH) -lcudart -lmpi -lgomp -lcutil_x86_64
 clean:
 	rm *.o openmp_cuda_cmeans
