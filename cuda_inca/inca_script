@@ -1,0 +1,11 @@
+#!/bin/bash
+
+#PBS -N cuda_inca
+#PBS -o cuda_inca_$PBS_JOBID.out
+#PBS -e cuda_inca_$PBS_JOBID.err
+#PBS -q delta
+#PBS -l nodes=1:ppn=1,walltime=5:00
+
+module load intel
+module load cuda
+/N/u/lihui/CUDA/github/GPU/cuda_inca/cuda_vecadd
