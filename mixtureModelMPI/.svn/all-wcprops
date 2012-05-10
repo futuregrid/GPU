@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/4902/trunk/project/biostatistics/projects/mixtureModelMPI
+END
+gaussian_kernel.cu
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/!svn/ver/4902/trunk/project/biostatistics/projects/mixtureModelMPI/gaussian_kernel.cu
+END
+gaussian.cu
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/!svn/ver/4902/trunk/project/biostatistics/projects/mixtureModelMPI/gaussian.cu
+END
+gaussian.h
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/!svn/ver/4902/trunk/project/biostatistics/projects/mixtureModelMPI/gaussian.h
+END
+invert_matrix.h
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/!svn/ver/4857/trunk/project/biostatistics/projects/mixtureModelMPI/invert_matrix.h
+END
+readData.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/!svn/ver/4901/trunk/project/biostatistics/projects/mixtureModelMPI/readData.cpp
+END
+invert_matrix.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/!svn/ver/4857/trunk/project/biostatistics/projects/mixtureModelMPI/invert_matrix.cpp
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/!svn/ver/4857/trunk/project/biostatistics/projects/mixtureModelMPI/Makefile
+END
