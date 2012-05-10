@@ -1,0 +1,9 @@
+//   lihui@indiana.edu   5/9/2012
+
+steps to use mpi/cuda implementation of cmeans on delta machine
+1)module load cuda
+2)module load intel
+3)module load intelmpi
+4)cd ./GPU/cmeansDelta
+5)make
+6)./mpi_cuda_bin

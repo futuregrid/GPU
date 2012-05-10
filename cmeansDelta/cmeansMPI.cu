@@ -159,7 +159,7 @@ int main(int argc, char* argv[])
     float* newClusters = (float*)malloc(sizeof(float)*NUM_CLUSTERS*NUM_DIMENSIONS);
 
     // Select random cluster centers
-    double t1,t2;
+    // double t1,t2;
     generateInitialClusters(myClusters, myEvents);
 
 
@@ -701,7 +701,7 @@ float* BuildQGPU(float* d_events, float* d_clusters, float* distanceMatrix, floa
     printf("GPU %d: Starting row for Q Matrix: %d\n",gpu_id,start_row);
 
     printf("Launching Q Matrix Kernel\n");
-    CalculateQMatrixGPUUpgrade<<<grid, Q_THREADS>>>(d_events, d_clusters, d_matrix, distanceMatrix, start_row, my_num_events);
+   CalculateQMatrixGPUUpgrade<<<grid, Q_THREADS>>>(d_events, d_clusters, d_matrix, distanceMatrix, start_row, my_num_events);
     cudaThreadSynchronize();
     printCudaError();
     stopTimer(timer_gpu);
@@ -728,4 +728,3 @@ float* BuildQGPU(float* d_events, float* d_clusters, float* distanceMatrix, floa
     FreeMatrix(d_matrix);
     return matrix;
 }
-

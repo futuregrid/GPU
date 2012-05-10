@@ -130,6 +130,6 @@ if __name__ == '__main__':
 
     # Run the cmeans program
     if not error:
-        cmd = 'mpirun -np %d ../../bin/linux/release/cmeansMPI "%s"' % (params['NP'],params['INPUT_FILE'])
+        cmd = 'mpirun -np %d ./mpi_cuda_cmeans "%s"' % (params['NP'],params['INPUT_FILE'])
         print cmd
         os.system(cmd)

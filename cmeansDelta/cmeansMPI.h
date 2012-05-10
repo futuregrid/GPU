@@ -11,13 +11,13 @@
 #define DEVICE 0
 
 // number of clusters
-#define NUM_CLUSTERS 1
+#define NUM_CLUSTERS 10
 
 // number of dimensions
-#define NUM_DIMENSIONS 1
+#define NUM_DIMENSIONS 4
 
 // number of elements
-#define NUM_EVENTS 0
+#define NUM_EVENTS 44
 
 // input file delimiter (normally " " or "," or "\t")
 #define DELIMITER ","
