@@ -61,7 +61,7 @@ float getTimerValue(cudaTimer_t timer) {
 }
 
 /************************************************************************/
-/* C-means Main                                                            */
+/* C-means Main                                                         */
 /************************************************************************/
 int main(int argc, char* argv[])
 {
@@ -152,7 +152,7 @@ int main(int argc, char* argv[])
     
     cutStartTimer(timer_main_cpu);
     //srand((unsigned)(time(0)));
-    srand(42);
+    srand(2012);
     
     // Allocate arrays for the cluster centers
     float* myClusters = (float*)malloc(sizeof(float)*NUM_CLUSTERS*NUM_DIMENSIONS);
@@ -161,7 +161,6 @@ int main(int argc, char* argv[])
     // Select random cluster centers
     // double t1,t2;
     generateInitialClusters(myClusters, myEvents);
-
 
     // Create an array of arrays for temporary cluster centers from each GPU
     float** tempClusters = (float**) malloc(sizeof(float*)*num_gpus);
@@ -192,8 +191,8 @@ int main(int argc, char* argv[])
    
     ////////////////////////////////////////////////////////////////
     // run as many CPU threads as there are CUDA devices
-    //num_gpus = 1;
-    //omp_set_num_threads(num_gpus);  // create as many CPU threads as there are CUDA devices
+    // num_gpus = 1;
+    // omp_set_num_threads(num_gpus);  // create as many CPU threads as there are CUDA devices
     #pragma omp parallel shared(myClusters,diff,tempClusters,tempDenominators,memberships,finalClusterConfig)
     {
         cudaTimer_t timer_memcpy; // Timer for GPU <---> CPU memory copying
@@ -260,7 +259,6 @@ int main(int argc, char* argv[])
         
         printf("Starting C-means\n");
         int iterations = 0;
-        
 
         int num_blocks_distance = my_num_events / NUM_THREADS_DISTANCE;
         if(my_num_events % NUM_THREADS_DISTANCE) {
@@ -286,11 +284,10 @@ int main(int argc, char* argv[])
             startTimer(timer_memcpy);
             CUDA_SAFE_CALL(cudaMemcpy(d_C, myClusters, size, cudaMemcpyHostToDevice));
             stopTimer(timer_memcpy);
-            
 
             startTimer(timer_gpu);
             DEBUG("Launching ComputeDistanceMatrix kernel\n");
-            ComputeDistanceMatrix<<< dim3(num_blocks_distance,NUM_CLUSTERS), NUM_THREADS_DISTANCE  >>>(d_C, d_E, d_distanceMatrix, my_num_events);
+  ComputeDistanceMatrix<<< dim3(num_blocks_distance,NUM_CLUSTERS), NUM_THREADS_DISTANCE  >>>(d_C, d_E, d_distanceMatrix, my_num_events);
             #if LINEAR
                 // O(M) membership kernel
                 DEBUG("Launching ComputeMembershipMatrixLinear kernel\n");
@@ -425,7 +422,7 @@ int main(int argc, char* argv[])
             float* temp_memberships = (float*) malloc(sizeof(float)*my_num_events*NUM_CLUSTERS);
             startTimer(timer_memcpy);
             #if LINEAR
-                cudaMemcpy(temp_memberships,d_distanceMatrix,sizeof(float)*my_num_events*NUM_CLUSTERS,cudaMemcpyDeviceToHost);
+               cudaMemcpy(temp_memberships,d_distanceMatrix,sizeof(float)*my_num_events*NUM_CLUSTERS,cudaMemcpyDeviceToHost);
             #else
                 cudaMemcpy(temp_memberships,d_memberships,sizeof(float)*my_num_events*NUM_CLUSTERS,cudaMemcpyDeviceToHost);
             #endif
@@ -694,7 +691,7 @@ float* BuildQGPU(float* d_events, float* d_clusters, float* distanceMatrix, floa
     cudaMalloc((void**)&d_matrix, size);
     printCudaError();
     stopTimer(timer_memcpy);
-    
+     
     startTimer(timer_gpu);
     dim3 grid(NUM_CLUSTERS / num_gpus, NUM_CLUSTERS);
     int start_row = gpu_id*(NUM_CLUSTERS/num_gpus);
